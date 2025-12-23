@@ -1,0 +1,41 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>TIMBERS ART | COMPANY PROFILE</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <link rel="stylesheet" href="./css/master.css" />
+   </head>
+
+   <body class="bg-neutral-900 text-white overflow-hidden">
+      <!-- Header -->
+      <header class="fixed top-0 left-0 right-0 z-20 flex items-center justify-between px-6 py-3 bg-black/40 backdrop-blur">
+         <div class="text-sm">Page <span id="currentPage">1</span> / <span id="totalPages">0</span></div>
+
+         <div class="flex gap-2">
+            <button id="prevBtn" class="w-8 h-8 bg-white/10 hover:bg-white/20 text-white rounded-full text-[16px] flex justify-center items-center">
+               <i class="fa fa-step-backward"></i>
+            </button>
+
+            <button id="nextBtn" class="w-8 h-8 bg-white/10 hover:bg-white/20 text-white rounded-full text-[16px] flex justify-center items-center">
+               <i class="fa fa-step-forward"></i>
+            </button>
+
+            <button id="fullscreenBtn" class="px-3 py-1 bg-white/10 rounded hover:bg-white/20">⛶</button>
+         </div>
+      </header>
+
+      <!-- Progress bar -->
+      <div class="fixed top-12 left-0 right-0 h-1 bg-white/10 z-20">
+         <div id="progressBar" class="h-full bg-marron transition-all"></div>
+      </div>
+
+      <!-- Slides container -->
+      <main id="slider" class="h-screen w-screen flex items-center justify-center relative"></main>
+
+      <script src="./js/viewer.js"></script>
+   </body>
+</html>
