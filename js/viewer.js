@@ -81,24 +81,9 @@ window.addEventListener("wheel", (e) => {
     e.deltaY > 0 ? next() : prev();
     lastScroll = now;
 });
-slider.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
 slider.addEventListener("touchmove", (e) => {
-    e.preventDefault();
     const currentX = e.changedTouches[0].screenX;
     const delta = currentX - touchStartX;
     slider.style.transform = `translateX(${delta * 0.2}px)`;
 }, { passive: false });
-slider.addEventListener("touchend", (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    slider.style.transform = "";
-    handleSwipe();
-});
-function handleSwipe() {
-    const deltaX = touchEndX - touchStartX;
-    if (Math.abs(deltaX) < swipeThreshold || isNavigating)
-        return;
-    deltaX < 0 ? next() : prev();
-}
 renderSlide();
