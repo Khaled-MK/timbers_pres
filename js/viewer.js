@@ -7,10 +7,12 @@ const progressBar = document.getElementById("progressBar");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
+let currentIndex = 0;
+let isNavigating = false;
+const NAVIGATION_DELAY = 400;
 let touchStartX = 0;
 let touchEndX = 0;
 const swipeThreshold = 50;
-let currentIndex = 0;
 for (let i = 1; i <= 53; i++) {
     if (i < 10) {
         images.push("./files/COMPANY PROFILE- TIMBERS ART x SNIM STEEL_Page_0" + i + ".png");
@@ -40,16 +42,20 @@ function renderSlide() {
     progressBar.style.width = `${((currentIndex + 1) / images.length) * 100}%`;
 }
 function next() {
-    if (currentIndex < images.length - 1) {
-        currentIndex++;
-        renderSlide();
-    }
+    if (isNavigating || currentIndex >= images.length - 1)
+        return;
+    isNavigating = true;
+    currentIndex++;
+    renderSlide();
+    setTimeout(() => (isNavigating = false), NAVIGATION_DELAY);
 }
 function prev() {
-    if (currentIndex > 0) {
-        currentIndex--;
-        renderSlide();
-    }
+    if (isNavigating || currentIndex <= 0)
+        return;
+    isNavigating = true;
+    currentIndex--;
+    renderSlide();
+    setTimeout(() => (isNavigating = false), NAVIGATION_DELAY);
 }
 nextBtn.addEventListener("click", next);
 prevBtn.addEventListener("click", prev);
@@ -78,34 +84,21 @@ window.addEventListener("wheel", (e) => {
 slider.addEventListener("touchstart", (e) => {
     touchStartX = e.changedTouches[0].screenX;
 }, { passive: true });
+slider.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+    const currentX = e.changedTouches[0].screenX;
+    const delta = currentX - touchStartX;
+    slider.style.transform = `translateX(${delta * 0.2}px)`;
+}, { passive: false });
 slider.addEventListener("touchend", (e) => {
     touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-});
-slider.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
-slider.addEventListener("touchend", (e) => {
-    touchEndX = e.changedTouches[0].screenX;
+    slider.style.transform = "";
     handleSwipe();
 });
 function handleSwipe() {
     const deltaX = touchEndX - touchStartX;
-    if (Math.abs(deltaX) < swipeThreshold)
+    if (Math.abs(deltaX) < swipeThreshold || isNavigating)
         return;
-    if (deltaX < 0) {
-        next();
-    }
-    else {
-        prev();
-    }
+    deltaX < 0 ? next() : prev();
 }
-slider.addEventListener("touchmove", (e) => {
-    const currentX = e.changedTouches[0].screenX;
-    const delta = currentX - touchStartX;
-    slider.style.transform = `translateX(${delta * 0.2}px)`;
-});
-slider.addEventListener("touchend", () => {
-    slider.style.transform = "";
-});
 renderSlide();
