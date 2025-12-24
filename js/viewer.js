@@ -113,10 +113,4 @@ window.addEventListener("wheel", (e) => {
     e.deltaY > 0 ? next() : prev();
     lastScroll = now;
 });
-slider.addEventListener("touchmove", (e) => {
-    e.preventDefault();
-    const currentX = e.changedTouches[0].screenX;
-    const delta = currentX - touchStartX;
-    slider.style.transform = `translateX(${delta * 0.2}px)`;
-}, { passive: false });
 renderSlide();
