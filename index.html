@@ -12,7 +12,7 @@
 
    <body class="bg-neutral-900 text-white overflow-hidden">
       <!-- Header -->
-      <header class="fixed top-0 left-0 right-0 z-20 flex items-center justify-between px-6 py-3 bg-black/40 backdrop-blur">
+      <header id="head" class="fixed top-0 left-0 right-0 z-20 flex items-center justify-between px-6 py-3 bg-black/40 backdrop-blur">
          <div class="text-sm">Page <span id="currentPage">1</span> / <span id="totalPages">0</span></div>
 
          <div class="flex gap-2">
@@ -26,12 +26,12 @@
 
             <button id="fullscreenBtn" class="px-3 py-1 bg-white/10 rounded hover:bg-white/20">⛶</button>
          </div>
+         <div class="fixed top-12 left-0 right-0 h-1 bg-white/10 z-20">
+            <div id="progressBar" class="h-full bg-marron transition-all"></div>
+         </div>
       </header>
 
       <!-- Progress bar -->
-      <div class="fixed top-12 left-0 right-0 h-1 bg-white/10 z-20">
-         <div id="progressBar" class="h-full bg-marron transition-all"></div>
-      </div>
 
       <!-- Slides container -->
       <main id="slider" class="h-screen w-screen flex items-center justify-center relative"></main>

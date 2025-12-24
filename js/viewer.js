@@ -13,6 +13,8 @@ const NAVIGATION_DELAY = 400;
 let touchStartX = 0;
 let touchEndX = 0;
 const swipeThreshold = 50;
+const head = document.getElementById("head");
+let isMouseOverHeader = false;
 for (let i = 1; i <= 53; i++) {
     if (i < 10) {
         images.push("./files/COMPANY PROFILE- TIMBERS ART x SNIM STEEL_Page_0" + i + ".png");
@@ -68,9 +70,39 @@ document.addEventListener("keydown", (e) => {
 fullscreenBtn.addEventListener("click", () => {
     if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen();
+        setTimeout(() => {
+            if (!isMouseOverHeader) {
+                head.style.cssText = "transform: translateY(-100%); transition: all 0.8s ease-in-out;";
+            }
+        }, 2000);
     }
     else {
         document.exitFullscreen();
+        head.style.cssText = "transform: translateY(0); transition: all 0.8s ease-in-out;";
+    }
+});
+document.addEventListener("click", () => {
+    if (document.fullscreenElement) {
+        head.style.cssText = "transform: translateY(0); transition: all 0.8s ease-in-out;";
+        setTimeout(() => {
+            if (!isMouseOverHeader) {
+                head.style.cssText = "transform: translateY(-100%); transition: all 0.8s ease-in-out;";
+            }
+        }, 2000);
+    }
+});
+head.addEventListener("mouseenter", () => {
+    isMouseOverHeader = true;
+    head.style.cssText = "transform: translateY(0); transition: all 0.3s ease-in-out;";
+});
+head.addEventListener("mouseleave", () => {
+    isMouseOverHeader = false;
+    if (document.fullscreenElement) {
+        setTimeout(() => {
+            if (!isMouseOverHeader) {
+                head.style.cssText = "transform: translateY(-100%); transition: all 0.8s ease-in-out;";
+            }
+        }, 2000);
     }
 });
 let lastScroll = 0;
@@ -82,6 +114,7 @@ window.addEventListener("wheel", (e) => {
     lastScroll = now;
 });
 slider.addEventListener("touchmove", (e) => {
+    e.preventDefault();
     const currentX = e.changedTouches[0].screenX;
     const delta = currentX - touchStartX;
     slider.style.transform = `translateX(${delta * 0.2}px)`;
