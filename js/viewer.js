@@ -1,5 +1,16 @@
 "use strict";
 const images = [];
+const slider = document.getElementById("slider");
+const currentPageEl = document.getElementById("currentPage");
+const totalPagesEl = document.getElementById("totalPages");
+const progressBar = document.getElementById("progressBar");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+let touchStartX = 0;
+let touchEndX = 0;
+const swipeThreshold = 50;
+let currentIndex = 0;
 for (let i = 1; i <= 53; i++) {
     if (i < 10) {
         images.push("./files/COMPANY PROFILE- TIMBERS ART x SNIM STEEL_Page_0" + i + ".png");
@@ -8,15 +19,6 @@ for (let i = 1; i <= 53; i++) {
         images.push("./files/COMPANY PROFILE- TIMBERS ART x SNIM STEEL_Page_" + i + ".png");
     }
 }
-console.log("images :", images);
-let currentIndex = 0;
-const slider = document.getElementById("slider");
-const currentPageEl = document.getElementById("currentPage");
-const totalPagesEl = document.getElementById("totalPages");
-const progressBar = document.getElementById("progressBar");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const fullscreenBtn = document.getElementById("fullscreenBtn");
 totalPagesEl.textContent = images.length.toString();
 function renderSlide() {
     slider.innerHTML = "";
@@ -72,5 +74,38 @@ window.addEventListener("wheel", (e) => {
         return;
     e.deltaY > 0 ? next() : prev();
     lastScroll = now;
+});
+slider.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+slider.addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+slider.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+slider.addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+function handleSwipe() {
+    const deltaX = touchEndX - touchStartX;
+    if (Math.abs(deltaX) < swipeThreshold)
+        return;
+    if (deltaX < 0) {
+        next();
+    }
+    else {
+        prev();
+    }
+}
+slider.addEventListener("touchmove", (e) => {
+    const currentX = e.changedTouches[0].screenX;
+    const delta = currentX - touchStartX;
+    slider.style.transform = `translateX(${delta * 0.2}px)`;
+});
+slider.addEventListener("touchend", () => {
+    slider.style.transform = "";
 });
 renderSlide();
